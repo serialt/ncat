@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"runtime"
+	"time"
 
+	"go.uber.org/zap"
 	"gopkg.in/yaml.v3"
+	"gorm.io/gorm"
 )
 
 // cli里的配置参数，使用类型类似firewalld
@@ -34,6 +37,10 @@ var (
 	GOOSARCH   = runtime.GOOS + "/" + runtime.GOARCH
 	// 其他配置文件
 	ConfigPath = ""
+
+	Logger   *zap.Logger
+	LogSugar *zap.SugaredLogger
+	DB       *gorm.DB
 )
 
 type Service struct {
@@ -41,8 +48,21 @@ type Service struct {
 	Port string `json:"port" yaml:"port"`
 }
 
+type Database struct {
+	Type            string        `yaml:"type"`
+	DBName          string        `gorm:"dbname" yaml:"dbname"`
+	Addr            string        `gorm:"addr" yaml:"addr"`
+	Port            string        `gorm:"port" yaml:"port"`
+	Username        string        `gorm:"username" yaml:"username"`
+	Password        string        `gorm:"password" yaml:"password"`
+	MaxOpenConns    int           `yaml:"maxOpenConns"`
+	MaxIdleConns    int           `yaml:"maxIdleConns"`
+	ConnMaxLifetime time.Duration `yaml:"connMaxLifetime"`
+}
+
 type MyConfig struct {
-	Service Service `json:"service" yaml:"service"`
+	Service  Service  `json:"service" yaml:"service"`
+	Database Database `json:"database" yaml:"database"`
 }
 
 var Config *MyConfig
