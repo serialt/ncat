@@ -20,20 +20,20 @@ GOFILES=$(wildcard *.go)
 
 
 BRANCH := $(shell git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
-# BRANCH := `git fetch --tags && git tag | sort -V | tail -1`
-BUILD := $(shell git rev-parse --short HEAD)
+BRANCH := `git fetch --tags && git tag | sort -V | tail -1`
+# BUILD := $(shell git rev-parse --short HEAD)
 BUILD_DIR := $(GOBASE)/build
-VERSION = $(BRANCH)-$(BUILD)
+VERSION = $(BRANCH)
 
 BuildTime := $(shell date -u  '+%Y-%m-%d %H:%M:%S %Z')
 GitHash := $(shell git rev-parse HEAD)
 GoVersion := $(shell go version | awk '{print $3}')
 Maintainer := tserialt@gmail.com 
 
-PKGFLAGS := " -X 'main.APPName=$(PROJECT_NAME)' -X 'main.APPVersion=$(VERSION)'  -X 'main.Maintainer=$(Maintainer)'  -X 'main.BuildTime=$(BuildTime)' -X 'main.GitCommit=$(GitHash)' "
+PKGFLAGS := " -X 'main.APPVersion=$(VERSION)'  -X 'main.BuildTime=$(BuildTime)' -X 'main.GitCommit=$(GitHash)' "
 
-APP_NAME = $(PROJECT_NAME)-$(VERSION)
-# go-pkg.v0.1.1-66ee01c-linux-amd64
+APP_NAME = $(PROJECT_NAME)
+# go-pkg.v0.1.1-linux-amd64
 
 .PHONY: clean
 clean:
@@ -45,17 +45,17 @@ serve:
 
 .PHONY: build
 build: clean
-	go build -ldflags $(PKGFLAGS) -o "build/$(APP_NAME)"
+	go build -ldflags $(PKGFLAGS) -o "build/$(APP_NAME)" cmd/sugar.go
 	@echo "编译完成"
 
 .PHONY: release
 release: clean
 	go mod tidy
-	GOOS="windows" GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-windows-amd64.exe" 
-	GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-linux-amd64"       
-	GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-linux-arm64"       
-	GOOS="darwin"  GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-darwin-amd64"       
-	GOOS="darwin"  GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-darwin-arm64"      
+	GOOS="windows" GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-windows-amd64.exe"  cmd/sugar.go
+	GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-linux-amd64"        cmd/sugar.go
+	GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-linux-arm64"        cmd/sugar.go
+	GOOS="darwin"  GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-darwin-amd64"       cmd/sugar.go
+	GOOS="darwin"  GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-darwin-arm64"       cmd/sugar.go
 	@echo "******************"
 	@echo " release succeed "
 	@echo "******************"
