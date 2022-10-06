@@ -11,7 +11,7 @@ var (
 	// Username = ""
 	// Password = ""
 
-	Config MyConfig
+	Config *MyConfig
 	// Logger *zap.Logger
 	Sugar *zap.SugaredLogger
 )

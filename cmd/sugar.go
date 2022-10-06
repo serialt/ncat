@@ -27,7 +27,10 @@ var rootCmd = &cobra.Command{
 }
 
 func initConfig() {
-	_ = sugar.LoadConfig(configFile, &config.Config)
+	err := sugar.LoadConfig(configFile, &config.Config)
+	if err != nil {
+		config.Config = new(config.MyConfig)
+	}
 	config.Sugar = sugar.NewSugarLogger(config.Config.Log.LogLevel, config.Config.Log.LogFile, "", false)
 
 }
