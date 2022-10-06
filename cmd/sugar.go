@@ -8,6 +8,7 @@ import (
 
 	"github.com/serialt/cli/config"
 	"github.com/serialt/cli/pkg"
+	"github.com/serialt/sugar"
 )
 
 var (
@@ -26,7 +27,8 @@ var rootCmd = &cobra.Command{
 }
 
 func initConfig() {
-	config.LoadConfig(configFile)
+	_ = sugar.LoadConfig(configFile, &config.Config)
+	config.Sugar = sugar.NewSugarLogger(config.Config.Log.LogLevel, config.Config.Log.LogFile, "", false)
 
 }
 

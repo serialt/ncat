@@ -1,14 +1,7 @@
 package config
 
 import (
-	"fmt"
-	"io/ioutil"
-
-	"github.com/mitchellh/go-homedir"
-	"github.com/serialt/cli/pkg"
-	"github.com/serialt/sugar"
 	"go.uber.org/zap"
-	"gopkg.in/yaml.v3"
 )
 
 // 存放一些公共的变量
@@ -36,22 +29,4 @@ type Log struct {
 type MyConfig struct {
 	Log     Log     `json:"log" yaml:"log"`
 	Service Service `json:"service" yaml:"service"`
-}
-
-func LoadConfig(filepath string) {
-	filepath, err := homedir.Expand(filepath)
-	if err != nil {
-		fmt.Printf("get config file failed: %v\n", err)
-	}
-	if pkg.Exists(filepath) {
-		config, _ := ioutil.ReadFile(filepath)
-		err = yaml.Unmarshal(config, &Config)
-		if err != nil {
-			fmt.Printf("Unmarshal to struct, err: %v", err)
-		}
-	} else {
-		Config.Log.LogLevel = "info"
-	}
-	// fmt.Printf("LoadConfig: %v\n", Config)
-	Sugar = sugar.NewSugarLogger(Config.Log.LogLevel, Config.Log.LogFile, "", false)
 }
