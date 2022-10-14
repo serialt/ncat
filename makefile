@@ -20,7 +20,7 @@ GOFILES=$(wildcard *.go)
 
 
 BRANCH := $(shell git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
-BRANCH := `git fetch --tags && git tag | sort -V | tail -1`
+# BRANCH := `git fetch --tags && git tag | sort -V | tail -1`
 # BUILD := $(shell git rev-parse --short HEAD)
 BUILD_DIR := $(GOBASE)/build
 VERSION = $(BRANCH)
