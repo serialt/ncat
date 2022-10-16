@@ -8,6 +8,7 @@ import (
 
 	"github.com/serialt/cli/config"
 	"github.com/serialt/cli/pkg"
+	"github.com/serialt/cli/simau"
 	"github.com/serialt/sugar"
 )
 
@@ -15,8 +16,6 @@ var (
 	APPVersion = "v0.2"
 	BuildTime  = "20060102"
 	GitCommit  = "ccccccccccccccc"
-
-	configFile = "config.yaml"
 )
 
 var rootCmd = &cobra.Command{
@@ -27,23 +26,23 @@ var rootCmd = &cobra.Command{
 }
 
 func initConfig() {
-	err := sugar.LoadConfig(configFile, &config.Config)
+	err := sugar.LoadConfig(simau.ConfigFile, &simau.Config)
 	if err != nil {
-		config.Config = new(config.MyConfig)
+		simau.Config = new(config.MyConfig)
 	}
-	config.Sugar = sugar.NewSugarLogger(config.Config.Log.LogLevel, config.Config.Log.LogFile, "", false)
+	simau.Sugar = sugar.NewSugarLogger(simau.Config.Log.LogLevel, simau.Config.Log.LogFile, "", false)
 
 }
 
 func init() {
 	// 初始化app信息
-	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "c", pkg.Env("CONFIG", configFile), "config file path")
+	rootCmd.PersistentFlags().StringVarP(&simau.ConfigFile, "config", "c", pkg.Env("CONFIG", simau.ConfigFile), "config file path")
 	cobra.OnInitialize(initConfig)
 	rootCmd.AddCommand(versionCmd)
 }
 
 func RunServer(cmd *cobra.Command, args []string) {
-	config.Sugar.Infof("config: %v", config.Config)
+	simau.Sugar.Infof("config: %v", simau.Config)
 }
 
 func main() {

@@ -1,21 +1,5 @@
 package config
 
-import (
-	"go.uber.org/zap"
-)
-
-// 存放一些公共的变量
-var (
-	// Listen   = ":9879"
-	// Host     = ""
-	// Username = ""
-	// Password = ""
-
-	Config *MyConfig
-	// Logger *zap.Logger
-	Sugar *zap.SugaredLogger
-)
-
 type Service struct {
 	Host string `json:"host" yaml:"host"`
 	Port string `json:"port" yaml:"port"`
