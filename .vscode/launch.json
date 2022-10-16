@@ -10,8 +10,10 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/cmd/",
+            "cwd": "${workspaceFolder}",
             "args": [
-                "-v",
+                "-c",
+                "config.yaml"
             ]
         }
     ]
