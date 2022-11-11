@@ -1,7 +1,6 @@
-package simau
+package pkg
 
 import (
-	"github.com/serialt/cli/config"
 	"go.uber.org/zap"
 )
 
@@ -12,7 +11,7 @@ var (
 	// Username = ""
 	// Password = ""
 	ConfigFile = "config.yaml" // 默认配置文件路径
-	Config     *config.MyConfig
+	Config     *MyConfig
 	// Logger *zap.Logger
 	Sugar *zap.SugaredLogger
 )

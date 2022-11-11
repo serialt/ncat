@@ -1,4 +1,6 @@
-package config
+package pkg
+
+import "github.com/serialt/sugar"
 
 type Service struct {
 	Host string `json:"host" yaml:"host"`
@@ -13,4 +15,13 @@ type Log struct {
 type MyConfig struct {
 	Log     Log     `json:"log" yaml:"log"`
 	Service Service `json:"service" yaml:"service"`
+}
+
+func InitConfig() {
+	err := sugar.LoadConfig(ConfigFile, &Config)
+	if err != nil {
+		Config = new(MyConfig)
+	}
+	Sugar = sugar.NewSugarLogger(Config.Log.LogLevel, Config.Log.LogFile, "", false)
+
 }
