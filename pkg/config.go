@@ -24,11 +24,6 @@ type MyConfig struct {
 }
 
 func InitConfig() {
-	err := sugar.LoadConfig(ConfigFile, &Config)
-	if err != nil {
-		Config = new(MyConfig)
-	}
-
 	exePath, err := os.Executable()
 	if err != nil {
 		fmt.Printf("Get project root path failed: %v", err)
@@ -39,8 +34,17 @@ func InitConfig() {
 	}
 	// fmt.Printf("Project root path: %s\n", RootPath)
 
+	if !filepath.IsAbs(ConfigFile) {
+		ConfigFile = filepath.Join(RootPath, ConfigFile)
+	}
+
+	err = sugar.LoadConfig(ConfigFile, &Config)
+	if err != nil {
+		Config = new(MyConfig)
+	}
+
 	// logfile path
-	if !filepath.IsAbs(Config.Log.LogFile) {
+	if len(Config.Log.LogFile) != 0 && !filepath.IsAbs(Config.Log.LogFile) {
 		Config.Log.LogFile = filepath.Join(RootPath, Config.Log.LogFile)
 	}
 	// fmt.Printf("Logfile path %s\n", Config.Log.LogFile)
