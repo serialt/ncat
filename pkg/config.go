@@ -1,6 +1,12 @@
 package pkg
 
-import "github.com/serialt/sugar"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+
+	"github.com/serialt/sugar"
+)
 
 type Service struct {
 	Host string `json:"host" yaml:"host"`
@@ -22,6 +28,25 @@ func InitConfig() {
 	if err != nil {
 		Config = new(MyConfig)
 	}
+
+	exePath, err := os.Executable()
+	if err != nil {
+		fmt.Printf("Get project root path failed: %v", err)
+	}
+
+	if len(RootPath) == 0 {
+		RootPath = filepath.Dir(exePath)
+	}
+	// fmt.Printf("Project root path: %s\n", RootPath)
+
+	// logfile path
+	if !filepath.IsAbs(Config.Log.LogFile) {
+		Config.Log.LogFile = filepath.Join(RootPath, Config.Log.LogFile)
+	}
+	// fmt.Printf("Logfile path %s\n", Config.Log.LogFile)
+
 	Sugar = sugar.NewSugarLogger(Config.Log.LogLevel, Config.Log.LogFile, "", false)
+	Sugar.Debugf("Project root path: %s", RootPath)
+	Sugar.Debugf("Logfile path %s", Config.Log.LogFile)
 
 }

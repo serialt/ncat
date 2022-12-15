@@ -19,6 +19,7 @@ var (
 func init() {
 	// 初始化app信息
 	rootCmd.PersistentFlags().StringVarP(&pkg.ConfigFile, "config", "c", pkg.Env("CONFIG", pkg.ConfigFile), "config file path")
+	rootCmd.PersistentFlags().StringVarP(&pkg.RootPath, "dir", "d", pkg.Env("WORKSPACE", pkg.RootPath), "workspace dir")
 	cobra.OnInitialize(pkg.InitConfig)
 	rootCmd.AddCommand(versionCmd)
 }

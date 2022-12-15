@@ -10,6 +10,7 @@ var (
 	// Host     = ""
 	// Username = ""
 	// Password = ""
+	RootPath   = ""
 	ConfigFile = "config.yaml" // 默认配置文件路径
 	Config     *MyConfig
 	// Logger *zap.Logger
