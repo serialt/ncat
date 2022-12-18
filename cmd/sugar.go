@@ -24,6 +24,14 @@ func init() {
 	rootCmd.AddCommand(versionCmd)
 }
 
+func main() {
+	err := rootCmd.Execute()
+	if err != nil {
+		os.Exit(1)
+	}
+
+}
+
 var rootCmd = &cobra.Command{
 	Use:   "cli ",
 	Short: "cli toolkit",
@@ -31,14 +39,6 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		app.RunServer()
 	},
-}
-
-func main() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
-
 }
 
 // command: version
