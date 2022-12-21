@@ -33,9 +33,8 @@ func InitConfig() {
 		RootPath = filepath.Dir(exePath)
 	}
 	// fmt.Printf("Project root path: %s\n", RootPath)
-
-	if !filepath.IsAbs(ConfigFile) {
-		ConfigFile = filepath.Join(RootPath, ConfigFile)
+	if len(ConfigFile) == 0 {
+		ConfigFile = filepath.Join(RootPath, DefaultConfigFile)
 	}
 
 	err = sugar.LoadConfig(ConfigFile, &Config)
