@@ -1,12 +1,15 @@
 package main
 
 import (
-	"log"
 	"os"
+
+	"github.com/serialt/sugar"
 )
 
 func service() {
-	log.Println("msg")
+	sugar.Debug("debug msg")
+	sugar.Info("info msg")
+	sugar.Error("error msg")
 }
 
 func EnvGet(envName string, defaultValue string) (data string) {

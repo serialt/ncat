@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
+
+	"github.com/serialt/sugar"
 )
 
 var (
@@ -13,10 +14,12 @@ var (
 	APPVersion = "v0.0.2"
 	BuildTime  = "2006-01-02 15:04:05"
 	GitCommit  = "xxxxxxxxxxx"
+	ConfigFile = "config.yaml"
 )
 
 func init() {
-	flag.BoolVar(&appVersion, "v", false, "Display build and version msg")
+	flag.BoolVar(&appVersion, "v", false, "Display build and version messages")
+	flag.StringVar(&ConfigFile, "c", "config.yaml", "Config file")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
 		fmt.Println("使用说明")
@@ -24,7 +27,7 @@ func init() {
 	}
 	flag.ErrHelp = fmt.Errorf("\n\nSome errors have occurred, check and try again !!! ")
 	flag.Parse()
-	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	sugar.SetLog("info", "")
 
 }
 func main() {
