@@ -1,5 +1,6 @@
-## cli 框架
-使用此项目模板作cli开发
+## cli 框架 pure 版
+只使用标准库
+
 ```shell
-git clone git@github.com:serialt/cli.git
+git clone -b pure git@github.com:serialt/cli.git
 ```

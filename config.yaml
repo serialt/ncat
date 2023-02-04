@@ -1,6 +1,0 @@
-log:
-    logLevel: debug
-    # logFile: imua.log
-service:
-    host: www.github.com
-    port: 80

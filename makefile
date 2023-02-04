@@ -45,17 +45,17 @@ serve:
 
 .PHONY: build
 build: clean
-	go build -ldflags $(PKGFLAGS) -o "build/$(APP_NAME)" cmd/sugar.go
+	go build -ldflags $(PKGFLAGS) -o "build/$(APP_NAME)" 
 	@echo "编译完成"
 
 .PHONY: release
 release: clean
 	go mod tidy
-	GOOS="windows" GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-windows-amd64.exe"  cmd/sugar.go
-	GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-linux-amd64"        cmd/sugar.go
-	GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-linux-arm64"        cmd/sugar.go
-	GOOS="darwin"  GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-darwin-amd64"       cmd/sugar.go
-	GOOS="darwin"  GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-darwin-arm64"       cmd/sugar.go
+	GOOS="windows" GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-windows-amd64.exe"  
+	GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-linux-amd64"        
+	GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-linux-arm64"       
+	GOOS="darwin"  GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-darwin-amd64"      
+	GOOS="darwin"  GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "build/$(APP_NAME)-darwin-arm64"       
 	@echo "******************"
 	@echo " release succeed "
 	@echo "******************"
