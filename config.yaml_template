@@ -1,0 +1,3 @@
+service:
+  host: www.github.com
+  port: 80

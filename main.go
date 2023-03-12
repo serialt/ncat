@@ -8,15 +8,6 @@ import (
 	"github.com/serialt/sugar"
 )
 
-var (
-	// 版本信息
-	appVersion bool // 控制是否显示版本
-	APPVersion = "v0.0.2"
-	BuildTime  = "2006-01-02 15:04:05"
-	GitCommit  = "xxxxxxxxxxx"
-	ConfigFile = "config.yaml"
-)
-
 func init() {
 	flag.BoolVar(&appVersion, "v", false, "Display build and version messages")
 	flag.StringVar(&ConfigFile, "c", "config.yaml", "Config file")
@@ -28,6 +19,7 @@ func init() {
 	flag.ErrHelp = fmt.Errorf("\n\nSome errors have occurred, check and try again !!! ")
 	flag.Parse()
 	sugar.SetLog("info", "")
+	InitConfig()
 
 }
 func main() {
