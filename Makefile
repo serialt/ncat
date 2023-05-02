@@ -36,7 +36,7 @@ APP_NAME = $(PROJECT_NAME)
 
 .PHONY: clean
 clean:
-	\rm -rf dist/$(PROJECT_NAME)* 
+	@-rm -rf dist/$(PROJECT_NAME)* 
 
 .PHONY: serve
 serve:
@@ -44,18 +44,34 @@ serve:
 
 .PHONY: build
 build: clean
-	go build -ldflags $(PKGFLAGS) -o "dist/$(APP_NAME)" cmd/sugar.go
-	@echo "编译完成"
+	@go build -ldflags $(PKGFLAGS) -o "dist/$(APP_NAME)" cmd/cli.go
+	@echo "\n******************************"
+	@echo "         build succeed "
+	@echo "******************************\n"
+	@ls -la dist/$(PROJECT_NAME)*
+	@echo
+
+.PHONY: build-linux
+build-linux: clean
+	@go mod tidy
+	@GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-amd64"        cmd/cli.go
+	@GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-arm64"        cmd/cli.go
+	@echo "\n******************************"
+	@echo "      build linux succeed "
+	@echo "******************************\n"
+	@ls -la dist/$(PROJECT_NAME)*
+	@echo
 
 .PHONY: release
 release: clean
-	go mod tidy
-	GOOS="windows" GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "sugar/$(APP_NAME)-windows-amd64.exe"  cmd/sugar.go
-	GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "sugar/$(APP_NAME)-linux-amd64"        cmd/sugar.go
-	GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "sugar/$(APP_NAME)-linux-arm64"        cmd/sugar.go
-	GOOS="darwin"  GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "sugar/$(APP_NAME)-darwin-amd64"       cmd/sugar.go
-	GOOS="darwin"  GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "sugar/$(APP_NAME)-darwin-arm64"       cmd/sugar.go
-	@echo "******************"
-	@echo " release succeed "
-	@echo "******************"
-	ls -la dist/$(PROJECT_NAME)*
+	@go mod tidy
+	@GOOS="windows" GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-windows-amd64.exe"  cmd/cli.go
+	@GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-amd64"        cmd/cli.go
+	@GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-arm64"        cmd/cli.go
+	@GOOS="darwin"  GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-darwin-amd64"       cmd/cli.go
+	@GOOS="darwin"  GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-darwin-arm64"       cmd/cli.go
+	@echo "\n******************************"
+	@echo "        release succeed "
+	@echo "******************************\n"
+	@ls -la dist/$(PROJECT_NAME)*
+	@echo

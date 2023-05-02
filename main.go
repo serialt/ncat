@@ -3,23 +3,21 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 
-	"github.com/serialt/sugar"
+	"github.com/serialt/sugar/v3"
+	"golang.org/x/exp/slog"
 )
 
 func init() {
 	flag.BoolVar(&appVersion, "v", false, "Display build and version messages")
 	flag.StringVar(&ConfigFile, "c", "config.yaml", "Config file")
-	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
-		fmt.Println("使用说明")
-		flag.PrintDefaults()
-	}
-	flag.ErrHelp = fmt.Errorf("\n\nSome errors have occurred, check and try again !!! ")
 	flag.Parse()
-	sugar.SetLog("info", "")
-	InitConfig()
+
+	err := sugar.LoadConfig(ConfigFile, &config)
+	if err != nil {
+		config = new(Config)
+	}
+	slog.SetDefault(sugar.New())
 
 }
 func main() {

@@ -3,13 +3,13 @@ package main
 import (
 	"os"
 
-	"github.com/serialt/sugar"
+	"golang.org/x/exp/slog"
 )
 
 func service() {
-	sugar.Debug("debug msg")
-	sugar.Info("info msg")
-	sugar.Error("error msg")
+	slog.Debug("debug msg")
+	slog.Info("info msg")
+	slog.Error("error msg")
 }
 
 func EnvGet(envName string, defaultValue string) (data string) {
