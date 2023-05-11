@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/serialt/lancet/cryptor"
 	"golang.org/x/exp/slog"
 )
 
@@ -19,4 +20,11 @@ func EnvGet(envName string, defaultValue string) (data string) {
 		return
 	}
 	return
+}
+
+func (c *Config) DecryptConfig() {
+	if c.Encrypt {
+		c.Token = cryptor.AesCbcDecryptBase64(c.Token, AesKey)
+		slog.Debug(c.Token)
+	}
 }

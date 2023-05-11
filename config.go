@@ -8,6 +8,9 @@ var (
 	GitCommit  = "xxxxxxxxxxx"
 	ConfigFile = "config.yaml"
 	config     *Config
+
+	AesKey  = "wzFdVviHTKraaPRWEa9bFLLzTkddtUNY"
+	AesData string // 用于存储明文
 )
 
 type Service struct {
@@ -17,4 +20,6 @@ type Service struct {
 
 type Config struct {
 	Service Service `json:"service" yaml:"service"`
+	Encrypt bool    `yaml:"encrypt"`
+	Token   string  `yaml:"token"`
 }

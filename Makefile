@@ -28,8 +28,9 @@ BuildTime := $(shell date -u  '+%Y-%m-%d %H:%M:%S %Z')
 GitHash := $(shell git rev-parse HEAD)
 GoVersion := $(shell go version | awk '{print $3}')
 Maintainer := tserialt@gmail.com 
+KEY := wzFdVviHTKraaPRWEa9bFLLzTkddtUNY
 
-PKGFLAGS := " -s -w -X 'main.APPVersion=$(VERSION)'  -X 'main.BuildTime=$(BuildTime)' -X 'main.GitCommit=$(GitHash)' "
+PKGFLAGS := " -s -w -X 'main.APPVersion=$(VERSION)'  -X 'main.BuildTime=$(BuildTime)' -X 'main.GitCommit=$(GitHash)' -X 'main.AesKey=$(KEY)'  "
 
 APP_NAME = $(PROJECT_NAME)
 # go-pkg.v0.1.1-linux-amd64
@@ -44,7 +45,7 @@ serve:
 
 .PHONY: build
 build: clean
-	@go build -ldflags $(PKGFLAGS) -o "dist/$(APP_NAME)" cmd/cli.go
+	@go build -ldflags $(PKGFLAGS) -o "dist/$(APP_NAME)" 
 	@echo "\n******************************"
 	@echo "         build succeed "
 	@echo "******************************\n"
@@ -54,8 +55,8 @@ build: clean
 .PHONY: build-linux
 build-linux: clean
 	@go mod tidy
-	@GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-amd64"        cmd/cli.go
-	@GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-arm64"        cmd/cli.go
+	@GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-amd64"       
+	@GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-arm64"    
 	@echo "\n******************************"
 	@echo "      build linux succeed "
 	@echo "******************************\n"
@@ -65,11 +66,11 @@ build-linux: clean
 .PHONY: release
 release: clean
 	@go mod tidy
-	@GOOS="windows" GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-windows-amd64.exe"  cmd/cli.go
-	@GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-amd64"        cmd/cli.go
-	@GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-arm64"        cmd/cli.go
-	@GOOS="darwin"  GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-darwin-amd64"       cmd/cli.go
-	@GOOS="darwin"  GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-darwin-arm64"       cmd/cli.go
+	@GOOS="windows" GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-windows-amd64.exe" 
+	@GOOS="linux"   GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-amd64"       
+	@GOOS="linux"   GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-arm64"       
+	@GOOS="darwin"  GOARCH="amd64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-darwin-amd64"      
+	@GOOS="darwin"  GOARCH="arm64" go build -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-darwin-arm64"      
 	@echo "\n******************************"
 	@echo "        release succeed "
 	@echo "******************************\n"
