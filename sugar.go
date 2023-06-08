@@ -2,7 +2,9 @@ package main
 
 import (
 	"os"
+	"time"
 
+	"github.com/robfig/cron/v3"
 	"github.com/serialt/lancet/cryptor"
 	"golang.org/x/exp/slog"
 )
@@ -11,6 +13,13 @@ func service() {
 	slog.Debug("debug msg")
 	slog.Info("info msg")
 	slog.Error("error msg")
+
+	// 定时任务
+	c := cron.New()
+	c.AddFunc("@every 2s", func() {
+		slog.Info("cron job", "output", time.Second)
+	})
+	c.Start()
 }
 
 func EnvGet(envName string, defaultValue string) (data string) {

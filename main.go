@@ -3,6 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/serialt/lancet/cryptor"
 	"github.com/serialt/sugar/v3"
@@ -37,4 +40,11 @@ func main() {
 		return
 	}
 	service()
+
+	// 进程持续运行
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
+	s := <-c
+	slog.Info("Aborting...", "signal", s)
+	os.Exit(2)
 }

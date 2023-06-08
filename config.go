@@ -22,4 +22,5 @@ type Config struct {
 	Service Service `json:"service" yaml:"service"`
 	Encrypt bool    `yaml:"encrypt"`
 	Token   string  `yaml:"token"`
+	Cron    string  `yaml:"cron"`
 }
