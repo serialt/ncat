@@ -1,7 +1,0 @@
-service:
-  host: www.github.com
-  port: 80
-encrypt: false
-token: hello_world
-# cron: "* * * * *" # 每分钟一次
-cron: "@every 1s" # 每秒一次
