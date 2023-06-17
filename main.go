@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"runtime"
 	"sync"
 	"time"
 
@@ -26,13 +27,13 @@ Examples:
     ncat -p tcp github.com 22
     ncat -p tcp github.com 443 80 22 5555
 
+
 `
 
 func init() {
 	flag.BoolVar(&appVersion, "v", false, "Display build and version messages")
 	flag.StringVar(&protocol, "p", "icmp", "[tcp,udp,icmp], default icmp")
 	flag.IntVar(&timeout, "T", 1000, "")
-	flag.BoolVar(&privileged, "privileged", false, "")
 
 	flag.Usage = func() {
 		fmt.Print(usage)
@@ -130,7 +131,9 @@ func Ping(host string) {
 	pinger.Count = -1
 	pinger.Size = 56
 
-	pinger.SetPrivileged(privileged)
+	if runtime.GOOS == "windows" {
+		pinger.SetPrivileged(true)
+	}
 
 	fmt.Printf("PING %s (%s):\n", pinger.Addr(), pinger.IPAddr())
 	err = pinger.Run()
